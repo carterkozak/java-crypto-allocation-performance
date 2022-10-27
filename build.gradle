@@ -1,0 +1,46 @@
+buildscript {
+    repositories {
+        mavenCentral() { metadataSources { mavenPom(); ignoreGradleMetadataRedirection() } }
+        gradlePluginPortal() { metadataSources { mavenPom(); ignoreGradleMetadataRedirection() } }
+    }
+
+    dependencies {
+        classpath 'com.palantir.gradle.jdkslatest:gradle-jdks-latest:0.4.0'
+        classpath 'com.palantir.gradle.jdks:gradle-jdks:0.27.0'
+        classpath 'com.palantir.baseline:gradle-baseline-java:4.182.0'
+        classpath 'com.palantir.gradle.consistentversions:gradle-consistent-versions:2.11.0'
+        classpath 'com.palantir.gradle.gitversion:gradle-git-version:0.15.0'
+    }
+}
+
+apply plugin: 'com.palantir.baseline'
+apply plugin: 'com.palantir.git-version'
+apply plugin: 'com.palantir.consistent-versions'
+apply plugin: 'com.palantir.baseline-java-versions'
+apply plugin: 'com.palantir.jdks.latest'
+
+version gitVersion()
+
+allprojects {
+    apply plugin: 'java-library'
+    apply plugin: 'com.palantir.java-format'
+
+    version rootProject.version
+    group 'com.palantir.javacryptobufferperformance'
+
+    repositories {
+        mavenCentral() { metadataSources { mavenPom(); ignoreGradleMetadataRedirection() } }
+    }
+
+
+    tasks.withType(JavaCompile) {
+        options.compilerArgs += ['-Werror']
+    }
+
+    tasks.check.dependsOn javadoc, checkUnusedDependencies
+}
+
+javaVersions {
+    libraryTarget = 11
+    runtime = 17
+}

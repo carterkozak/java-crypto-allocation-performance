@@ -1,0 +1,11 @@
+apply plugin: 'application'
+
+application {
+    mainClass = 'org.openjdk.jmh.Main'
+}
+
+dependencies {
+    implementation 'org.openjdk.jmh:jmh-core'
+    compileOnly 'org.openjdk.jmh:jmh-generator-annprocess'
+    annotationProcessor 'org.openjdk.jmh:jmh-generator-annprocess'
+}

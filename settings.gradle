@@ -1,0 +1,4 @@
+rootProject.name = 'java-crypto-allocation-performance-root'
+
+include 'java-crypto-allocation-performance'
+
