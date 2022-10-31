@@ -11,7 +11,7 @@ results.
 Running Locally
 ---------------
 
-You may run using your preferred IDE using the main method in [TransportLayerSecurityBenchmark](./java-crypto-buffer-performance/src/main/java/com/palantir/java/crypto/allocations/TransportLayerSecurityBenchmark.java),
+You may run using your preferred IDE using the main method in [TransportLayerSecurityBenchmark](./java-crypto-allocation-performance/src/main/java/com/palantir/java/crypto/allocations/TransportLayerSecurityBenchmark.java),
 or by executing `./gradlew run`. Alternatively, you can build a zip archive using `./gradlew distZip` for execution in another environment.
 
 Initial Benchmark Results
