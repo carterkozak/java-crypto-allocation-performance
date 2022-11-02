@@ -56,7 +56,7 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 @Warmup(iterations = 4, time = 4)
 @Measurement(iterations = 4, time = 4)
-@Fork(value = 1)
+@Fork(value = 1, jvm = "/absolute/path/to/bin/java")
 public class TransportLayerSecurityBenchmark {
 
     private static final String[] PROTOCOLS = new String[] {"TLSv1.3"};
