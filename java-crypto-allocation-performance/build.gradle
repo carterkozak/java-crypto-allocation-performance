@@ -5,6 +5,7 @@ application {
 }
 
 dependencies {
+    implementation 'io.undertow:undertow-core'
     implementation 'org.openjdk.jmh:jmh-core'
     compileOnly 'org.openjdk.jmh:jmh-generator-annprocess'
     annotationProcessor 'org.openjdk.jmh:jmh-generator-annprocess'
