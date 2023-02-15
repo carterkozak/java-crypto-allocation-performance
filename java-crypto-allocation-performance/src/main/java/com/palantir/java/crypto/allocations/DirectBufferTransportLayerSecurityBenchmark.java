@@ -91,6 +91,9 @@ public class DirectBufferTransportLayerSecurityBenchmark {
         @Param("104857600") // 100 MiB
         public int length;
 
+        @Param
+        public SecurityProviderParam provider;
+
         private SSLSocketFactory socketFactory;
 
         // Standard Size 8KiB buffer matching InputStream.DEFAULT_BUFFER_SIZE
@@ -103,6 +106,7 @@ public class DirectBufferTransportLayerSecurityBenchmark {
         @Setup
         @SuppressWarnings("DnsLookup")
         public void setup() throws Exception {
+            provider.install();
             ThreadLocalRandom.current().nextBytes(data);
             socketFactory = sslContext(false).getSocketFactory();
             server = Undertow.builder()

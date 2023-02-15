@@ -56,8 +56,10 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 @Warmup(iterations = 4, time = 4)
 @Measurement(iterations = 4, time = 4)
-@Fork(value = 1)
-public class TransportLayerSecurityBenchmark {
+@Fork(
+        value = 1,
+        jvmArgsAppend = {"-Xmx2g", "-Xms2g"})
+public class SocketTransportLayerSecurityBenchmark {
 
     private static final String[] PROTOCOLS = new String[] {"TLSv1.3"};
 
@@ -91,6 +93,9 @@ public class TransportLayerSecurityBenchmark {
         @Param("104857600") // 100 MiB
         public int length;
 
+        @Param
+        public SecurityProviderParam provider;
+
         private SSLServerSocket serverSocket;
         private ExecutorService executor;
 
@@ -106,6 +111,7 @@ public class TransportLayerSecurityBenchmark {
         @Setup
         @SuppressWarnings("DnsLookup")
         public void setup() throws Exception {
+            provider.install();
             ThreadLocalRandom.current().nextBytes(data);
             executor = Executors.newCachedThreadPool();
             SSLContext context = sslContext(true);
@@ -164,8 +170,9 @@ public class TransportLayerSecurityBenchmark {
             KeyManager[] keyManagers = new KeyManager[0];
             if (server) {
                 KeyStore keyStore = KeyStore.getInstance("JKS");
-                try (InputStream stream =
-                        TransportLayerSecurityBenchmark.class.getClassLoader().getResourceAsStream("keyStore.jks")) {
+                try (InputStream stream = SocketTransportLayerSecurityBenchmark.class
+                        .getClassLoader()
+                        .getResourceAsStream("keyStore.jks")) {
                     if (stream == null) {
                         throw new IllegalStateException();
                     }
@@ -178,8 +185,9 @@ public class TransportLayerSecurityBenchmark {
             }
 
             KeyStore trustStore = KeyStore.getInstance("JKS");
-            try (InputStream stream =
-                    TransportLayerSecurityBenchmark.class.getClassLoader().getResourceAsStream("trustStore.jks")) {
+            try (InputStream stream = SocketTransportLayerSecurityBenchmark.class
+                    .getClassLoader()
+                    .getResourceAsStream("trustStore.jks")) {
                 if (stream == null) {
                     throw new IllegalStateException();
                 }
@@ -199,7 +207,7 @@ public class TransportLayerSecurityBenchmark {
 
     public static void main(String[] _args) throws RunnerException {
         new Runner(new OptionsBuilder()
-                        .include(TransportLayerSecurityBenchmark.class.getSimpleName())
+                        .include(SocketTransportLayerSecurityBenchmark.class.getSimpleName())
                         .addProfiler(GCProfiler.class)
                         .build())
                 .run();
