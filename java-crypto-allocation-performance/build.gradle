@@ -8,7 +8,6 @@ dependencies {
     implementation 'io.undertow:undertow-core'
     implementation 'org.openjdk.jmh:jmh-core'
     implementation 'software.amazon.cryptools:AmazonCorrettoCryptoProvider::linux-x86_64'
-    implementation 'org.conscrypt:conscrypt-openjdk-uber'
     compileOnly 'org.openjdk.jmh:jmh-generator-annprocess'
     annotationProcessor 'org.openjdk.jmh:jmh-generator-annprocess'
 }
